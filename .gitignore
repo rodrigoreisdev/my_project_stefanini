@@ -1,0 +1,9 @@
+Example.Api/obj
+Example.Api/bin
+Example.Api/.vscode
+Example.Application/obj
+Example.Application/bin
+Example.Domain/obj
+Example.Domain/bin
+Example.Infra.Data/obj
+Example.Infra.Data/bin
