@@ -1,0 +1,65 @@
+<div class="cntAll">
+    <button pButton type="button" icon="pi pi-plus" class="p-button-raised p-button-rounded" (click)="openModal()"></button>
+    <div class="flex-container">
+        <ng-container *ngFor="let item of listPersons">
+            <p-card class="flex-items">
+                <ng-template pTemplate="header">
+                    <div class="flex-item-title">{{item.name_person}}</div>
+                </ng-template>
+                <div class="flex-item-text">
+                    <div class="item-text"><span>CPF</span>{{item.cpf}}</div>
+                    <div class="item-text"><span>Idade</span>{{item.age}}</div>
+                    <div class="item-text"><span>Cidade</span>{{item.city.name_city}}</div>
+                    <div class="item-text"><span>UF</span>{{item.city.uf}}</div>
+                </div>
+                <ng-template pTemplate="footer">
+                    <span class="p-buttonset">
+                        <button pButton type="button" label="Editar" icon="pi pi-user-edit" (click)="openModal(item)"></button>
+                        <button pButton type="button" label="Apagar" icon="pi pi-trash" (click)="onConfirm(item)"></button>
+                    </span>
+                </ng-template>
+            </p-card>
+        </ng-container>
+    </div>
+</div>
+
+<p-dialog [(visible)]="display" [modal]="true" [breakpoints]="{'960px': '75vw', '640px': '100vw'}" [style]="{width: '50vw'}">
+    <form class="form-group" [formGroup]="personForm" (ngSubmit)="addUpdatePerson()">
+
+            <span class="p-float-label">
+                <input formControlName="name_person" id="float-input" type="text" pInputText> 
+                <label for="float-input">Nome</label>
+            </span>
+            <span class="p-float-label">
+                <p-inputMask formControlName="cpf" id="float-input" mask="999.999.999-99"></p-inputMask>
+                <label for="float-input">CPF</label>
+            </span>
+            <span class="p-float-label">
+                <input formControlName="age" id="float-input" type="number" pInputText> 
+                <label for="float-input">Idade</label>
+            </span>
+            <span class="p-float-label">
+                <input formControlName="name_city" id="float-input" type="text" pInputText> 
+                <label for="float-input">Cidade</label>
+            </span>
+            <span class="p-float-label">
+                <select formControlName="uf" id="float-input" class="input-select" name="states">
+                    <option value="">Estado</option>
+                    <option *ngFor="let uf of states" [value]="uf.code">{{uf.name}}</option>
+                  </select>
+            </span>
+
+            <p-button type="submit" class="button" label="Salvar" [disabled]="!personForm.valid" ></p-button>
+        </form>
+</p-dialog>
+
+<p-dialog [modal]="true" [(visible)]="displayDel">
+    <ng-template pTemplate="header">
+        <span>Nome: {{personForm.value.name_person}}</span>
+    </ng-template>
+    Deseja excluir o registro?
+    <ng-template pTemplate="footer">
+        <button pButton type="button" label="Sim" icon="pi pi-check" (click)="deletePerson()"></button>
+        <button pButton type="button" label="Não" icon="pi pi-times" (click)="displayDel = false"></button>
+    </ng-template>
+</p-dialog>
